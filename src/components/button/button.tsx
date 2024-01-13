@@ -1,29 +1,39 @@
 import {RefObject} from 'react';
-import {Text, StyleSheet, Pressable, StyleProp, ViewStyle} from 'react-native';
+import {Text, Pressable, StyleProp, ViewStyle} from 'react-native';
+import {PressableBox} from '../box/box';
+import {buttonPresets} from './presets';
+
+export type ButtonPreset = 'primary' | 'outline';
 
 type ButtonProps = {
   styles?: StyleProp<ViewStyle>;
   ref?: RefObject<typeof Pressable>;
   title: string;
+  disabled?: boolean;
+  preset?: ButtonPreset;
 };
-export function Button({styles, ref, title, ...rest}: ButtonProps) {
+
+export function Button({
+  styles,
+  ref,
+  title,
+  disabled,
+  preset = 'primary',
+  ...rest
+}: ButtonProps) {
+  const buttonPreset = buttonPresets[preset][disabled ? 'disabled' : 'default'];
   return (
-    <Pressable style={[buttonStyles.container, styles]} {...rest}>
-      <Text style={buttonStyles.title}>{title}</Text>
-    </Pressable>
+    <PressableBox
+      testID="button"
+      ref={ref}
+      disabled={disabled}
+      alignItems="center"
+      justifyContent="center"
+      borderRadius="s8"
+      height={40}
+      {...buttonPreset.container}
+      {...rest}>
+      <Text>{title}</Text>
+    </PressableBox>
   );
 }
-
-const buttonStyles = StyleSheet.create({
-  container: {
-    height: 40,
-    width: '100%',
-    borderRadius: 6,
-    backgroundColor: '#333',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    color: '#FFF',
-  },
-});

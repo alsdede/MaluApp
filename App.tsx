@@ -1,12 +1,16 @@
 import {StatusBar, SafeAreaView, StyleSheet} from 'react-native';
 import {HomeScreen} from '@screens';
+import {ThemeProvider} from '@shopify/restyle';
+import theme from './src/theme/theme';
 
 function App(): JSX.Element {
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <StatusBar />
-      <HomeScreen />
-    </SafeAreaView>
+    <ThemeProvider theme={theme}>
+      <SafeAreaView style={styles.safeArea}>
+        <StatusBar />
+        <HomeScreen />
+      </SafeAreaView>
+    </ThemeProvider>
   );
 }
 
